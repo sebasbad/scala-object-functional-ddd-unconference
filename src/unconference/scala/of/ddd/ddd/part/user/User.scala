@@ -20,9 +20,9 @@ case class DefaultUser(id: NonEmptyString, email: NonEmptyString, password: NonE
   def withRole = role => copy(roles = (roles ++ Seq(role)).distinct)
 
   def toDTO = () => this
+
   def getId = () => id
   def getEmail = () => email
-
   def getPassword = () => password
   def getRoles = () => roles
 }
