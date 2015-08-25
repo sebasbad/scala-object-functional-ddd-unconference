@@ -36,7 +36,7 @@ object Test {
   }
 
   def main(args: Array[String]) {
-    val service = UserService(UserRepository(SingleThreadExecutionContext))(SingleThreadExecutionContext)
+    val service = UserService(UserRepository())
     val result = for (
       registeredUser <- service.register("userId", "email@wow.com", "soSecure") ;
       adminUser <- service.addRole(registeredUser.getId(), "administrator")

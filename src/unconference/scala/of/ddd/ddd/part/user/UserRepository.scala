@@ -26,7 +26,7 @@ class OnMemoryUserRepository(private var users: Seq[User])(implicit ec: Executio
 }
 
 object UserRepository {
-  def apply(implicit ec: ExecutionContext = ExecutionContext.Implicits.global): OnMemoryUserRepository = {
+  def apply()(implicit ec: ExecutionContext = ExecutionContext.Implicits.global): OnMemoryUserRepository = {
     new OnMemoryUserRepository(Seq())
   }
 }
