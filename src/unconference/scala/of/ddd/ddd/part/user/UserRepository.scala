@@ -11,7 +11,7 @@ trait UserRepository {
 /**
  * A Repository has mutable state by design. This usually is an external database.
  */
-class OnMemoryUserRepository(private var users: Seq[User])(implicit ec: ExecutionContext) extends UserRepository {
+class InMemoryUserRepository(private var users: Seq[User])(implicit ec: ExecutionContext) extends UserRepository {
   val noSuchElement = (id: String) => Future.failed[User](new NoSuchElementException(s"Could not find user with id $id"))
   val alreadyExists = (email: String) => Future.failed[Unit](new IllegalArgumentException(s"User with email $email already exists"))
 
@@ -26,7 +26,7 @@ class OnMemoryUserRepository(private var users: Seq[User])(implicit ec: Executio
 }
 
 object UserRepository {
-  def apply()(implicit ec: ExecutionContext = ExecutionContext.Implicits.global): OnMemoryUserRepository = {
-    new OnMemoryUserRepository(Seq())
+  def apply()(implicit ec: ExecutionContext = ExecutionContext.Implicits.global): InMemoryUserRepository = {
+    new InMemoryUserRepository(Seq())
   }
 }
