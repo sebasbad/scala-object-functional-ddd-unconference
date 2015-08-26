@@ -10,14 +10,14 @@ trait UserDTO {
 }
 
 trait User {
-  def changePassword: String => User
-  def withRole: String => User
+  def changePassword: NonEmptyString => User
+  def withRole: NonEmptyString => User
   def toDTO: () => UserDTO
 }
 
 case class DefaultUser(id: NonEmptyString, email: NonEmptyString, password: NonEmptyString, roles: Seq[String]) extends User with UserDTO {
   def changePassword = pwd => copy(password = pwd)
-  def withRole = role => copy(roles = (roles ++ Seq(role)).distinct)
+  def withRole = role => copy(roles = (roles ++ Seq(role.toString)).distinct)
 
   def toDTO = () => this
 
