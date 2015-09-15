@@ -15,7 +15,8 @@ trait User {
   def toDTO: () => UserDTO
 }
 
-case class DefaultUser(id: NonEmptyString, email: NonEmptyString, password: NonEmptyString, roles: Seq[String]) extends User with UserDTO {
+case class DefaultUser(id: NonEmptyString, email: NonEmptyString, password: NonEmptyString, roles: Seq[String])
+  extends User with UserDTO {
   def changePassword = pwd => copy(password = pwd)
   def withRole = role => copy(roles = (roles ++ Seq(role.toString)).distinct)
 

@@ -18,7 +18,7 @@ class InMemoryUserRepository(private var users: Seq[User])(implicit ec: Executio
   def slotOnEmail = email => this.users.find(_.toDTO().getEmail() == email).fold(Future.successful[Unit]())(_ => alreadyExists(email))
 
   def save = user => Future {
-    this.users = this.users.filter(_.toDTO().getId() != user.toDTO().getId()) ++ Seq(user)
+    this.users = this.users.filterNot(_.toDTO().getId() == user.toDTO().getId()) ++ Seq(user)
     user
   }
 

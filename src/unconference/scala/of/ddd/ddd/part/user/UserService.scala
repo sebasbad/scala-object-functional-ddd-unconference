@@ -5,6 +5,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait UserService {
   def register: (String, String, String) => Future[UserDTO]
   def addRole: (String, String) => Future[UserDTO]
+  def registeredUser: (String) => Future[UserDTO]
 }
 
 case class DefaultUserService(repository: UserRepository)(implicit ec: ExecutionContext) extends UserService {
@@ -21,6 +22,10 @@ case class DefaultUserService(repository: UserRepository)(implicit ec: Execution
     changedUser <- user.withRole(role) ;
     savedUser <- repository.save(changedUser)
   ) yield savedUser.toDTO()
+
+  def registeredUser: (String) => Future[UserDTO] = id => for (
+    user <- repository.byId(id)
+  ) yield user.toDTO()
 }
 
 object UserService {
